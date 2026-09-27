@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased transition-colors duration-300 dark:bg-ink dark:text-slate-100;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    @apply bg-brass-400/30 text-current;
+  }
+
+  /* Keyboard focus is always visible; the custom cursor never hides it */
+  :focus-visible {
+    outline: 2px solid #b3791f;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  html.dark :focus-visible {
+    outline-color: #e2a44e;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  /* Fixed navbar is ~4rem tall — without this, jumping to a section via the
+     nav (or a direct #hash link) hides its heading underneath it. */
+  section[id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-10;
+  }
+
+  /* Fine schematic dot-grid, used sparingly (hero + architecture section only) */
+  .bg-schematic {
+    background-image: radial-gradient(currentColor 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* Subtle film-grain texture for hero depth — inert on the main thread,
+     just an animated background-position on a tiny tiled SVG noise tile. */
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  /* Skip-to-content link: visually hidden until focused */
+  .skip-link {
+    @apply fixed left-4 top-4 z-[100] -translate-y-24 rounded-md bg-ink px-4 py-2.5 text-sm font-medium text-paper opacity-0 transition-all duration-150 focus:translate-y-0 focus:opacity-100 dark:bg-brass-400 dark:text-ink;
+  }
+}
+
+/* Custom cursor — enabled only on fine-pointer devices, see CustomCursor.tsx */
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor * {
+    cursor: none;
+  }
+}

@@ -1,0 +1,18 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Vercel CLI local project link (created by `vercel link` / `vercel dev`)
+.vercel
+
+# Coverage output from `vitest run --coverage`, if ever enabled
+coverage
+
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
